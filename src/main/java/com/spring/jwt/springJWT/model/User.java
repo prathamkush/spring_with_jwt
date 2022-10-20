@@ -1,6 +1,8 @@
 package com.spring.jwt.springJWT.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +17,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
+    @JsonSerialize(using = ToStringSerializer.class)
     private ObjectId id;
     private String name;
     private String email;
     private String password;
-
-
-
 
 }
