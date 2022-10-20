@@ -2,6 +2,7 @@ package com.spring.jwt.springJWT.service;
 
 import com.spring.jwt.springJWT.model.User;
 import com.spring.jwt.springJWT.repository.UserRepository;
+import org.apache.el.parser.Token;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -15,11 +16,13 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
+    private TokenService tokenService;
 
-    public UserService(UserRepository userRepository){
+    @Autowired
+    public UserService(UserRepository userRepository, TokenService tokenService) {
         this.userRepository = userRepository;
+        this.tokenService = tokenService;
     }
 
     public User getUser(ObjectId id) {
@@ -32,13 +35,24 @@ public class UserService {
         return userRepository.findAll();
     }
 
+
     public String saveUser(User user){
-        userRepository.save(user);
-        return "User created successfully";
+        /*
+            {
+	            message: “Successfully Created User”,
+	            data: savedUserDocument,
+	            token: secretToken
+            }
+        */
+
+        User savedUser = userRepository.save(user);
+        return "{" +
+                "\"message\":"+"\"Successfully Created User\",\n"+
+                "\"data\":"+savedUser+",\n"+
+
+                "\"token\":\""+tokenService.createToken(savedUser.getId())+"\"" +
+                "}";
     }
-
-
-
 
 
 }

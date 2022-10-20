@@ -5,9 +5,11 @@ import com.spring.jwt.springJWT.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -21,14 +23,15 @@ public class UserController {
         this.service = service;
     }
 
-    @PostMapping("/add-user")
+    @PostMapping(value = "/add-user")
     public String saveUser(@RequestBody User user){
         return service.saveUser(user);
     }
 
-    @GetMapping("/get-user/{id}")
-    public User getUser(@PathVariable("id") ObjectId id){
-        return service.getUser(id);
+    @GetMapping("/get-user")
+    public User getUser(HttpServletRequest request){
+        ObjectId userId = (ObjectId) request.getAttribute("userId");
+        return service.getUser(userId);
     }
 
     @GetMapping("/get-users")
