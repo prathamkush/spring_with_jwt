@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/get-users")
-    public List<User> getUsers(){
+    public List<User> getUsers(HttpServletRequest request){
         return service.getUsers();
     }
 

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// Doing configuration for routing (routing the URIs)
 @Configuration
 public class JwtFilter extends GenericFilterBean {
 
@@ -25,6 +26,8 @@ public class JwtFilter extends GenericFilterBean {
         this.tokenService = tokenService;
     }
 
+    // Chainable method (recursive) will paas HttpServlet requests and responses (along with tokens)
+    // to then next chain of callable URIs
     @Override
     public void doFilter(ServletRequest req,
                          ServletResponse res,
